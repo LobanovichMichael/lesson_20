@@ -28,6 +28,8 @@ public class HelloController implements Initializable {
                     if (!b.getText().isEmpty()) {
                         return;
                     }
+                    int row = Integer.parseInt(b.getId().split("_")[1]);
+                    int column = Integer.parseInt(b.getId().split("_")[2]);
                     if (isCross) {
                         b.setText("X");
                     } else {
