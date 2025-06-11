@@ -10,12 +10,15 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
     @FXML
     private VBox box;
+    @FXML
+    private Label messageLabel;
+    @FXML
+    private Button playAgainButton;
 
     private boolean isCross = true;
 
@@ -40,7 +43,6 @@ public class HelloController implements Initializable {
                     if (!b.getText().isEmpty()) {
                         return;
                     }
-                    System.out.println(field.toString());
                     int row = Integer.parseInt(b.getId().split("_")[1]);
                     int column = Integer.parseInt(b.getId().split("_")[2]);
                     if (isCross) {
@@ -51,13 +53,65 @@ public class HelloController implements Initializable {
                         field.get(row).set(column,0);
                     }
                     isCross = !isCross;
-
+                    if (checkWin() != null){
+                        messageLabel.setText("Выиграли " + checkWin());
+                        changeButtonsDisableState(true);
+                        playAgainButton.setVisible(true);
+                    }
                 });
             }
         }
     }
 
-    private void checkWin(){
+
+    private String checkWin() {
+        final int size = fieldLength;
+
+        for (int i = 0; i < size; i++) {
+            if (field.get(i).get(0) != null &&
+                    field.get(i).get(0) == field.get(i).get(1) &&
+                    field.get(i).get(1) == field.get(i).get(2)) {
+                return field.get(i).get(0) == 1 ? "X" : "O";
+            }
+        }
+
+        for (int j = 0; j < size; j++) {
+            if (field.get(0).get(j) != null &&
+                    field.get(0).get(j) == field.get(1).get(j) &&
+                    field.get(1).get(j) == field.get(2).get(j)) {
+                return field.get(0).get(j) == 1 ? "X" : "O";
+            }
+        }
+
+        if (field.get(0).get(0) != null &&
+                field.get(0).get(0) == field.get(1).get(1) &&
+                field.get(1).get(1) == field.get(2).get(2)) {
+            return field.get(0).get(0) == 1 ? "X" : "O";
+        }
+
+        if (field.get(0).get(2) != null &&
+                field.get(0).get(2) == field.get(1).get(1) &&
+                field.get(1).get(1) == field.get(2).get(0)) {
+            return field.get(0).get(2) == 1 ? "X" : "O";
+        }
+        return null;
+    }
+
+    @FXML
+    private void playAgainClick(){
 
     }
+
+
+    private void changeButtonsDisableState(boolean disable) {
+        for (Node hBox: box.getChildren()) {
+            HBox currentBox = (HBox) hBox;
+            for (Node button: currentBox.getChildren()) {
+                Button b = (Button) button;
+                b.setDisable(disable);
+            }
+        }
+    }
+
+
 }
