@@ -99,7 +99,13 @@ public class HelloController implements Initializable {
 
     @FXML
     private void playAgainClick(){
-
+        changeButtonsDisableState(false);
+        for (int i = 0; i < fieldLength; i++) {
+            for (int j = 0; j < fieldLength; j++) {
+                field.get(i).set(j, null);
+            }
+        }
+        System.out.println(field);
     }
 
 
