@@ -19,6 +19,10 @@ public class HelloController implements Initializable {
     private Label messageLabel;
     @FXML
     private Button playAgainButton;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label secondNameLabel;
 
     private boolean isCross = true;
 
@@ -27,14 +31,11 @@ public class HelloController implements Initializable {
     private ArrayList<ArrayList<Integer>> field = new ArrayList<>(fieldLength);
     private String firstPlayerName, secondPlayerName;
 
-    public HelloController(String firstPlayerName, String secondPlayerName) {
-        this.firstPlayerName = firstPlayerName;
-        this.secondPlayerName = secondPlayerName;
-    }
-
     public void setNames(String firstPlayerName, String secondPlayerName) {
         this.firstPlayerName = firstPlayerName;
         this.secondPlayerName = secondPlayerName;
+        firstNameLabel.setText(firstPlayerName);
+        secondNameLabel.setText(secondPlayerName);
     }
 
 
