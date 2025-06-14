@@ -25,6 +25,17 @@ public class HelloController implements Initializable {
     int fieldLength = 3;
 
     private ArrayList<ArrayList<Integer>> field = new ArrayList<>(fieldLength);
+    private String firstPlayerName, secondPlayerName;
+
+    public HelloController(String firstPlayerName, String secondPlayerName) {
+        this.firstPlayerName = firstPlayerName;
+        this.secondPlayerName = secondPlayerName;
+    }
+
+    public void setNames(String firstPlayerName, String secondPlayerName) {
+        this.firstPlayerName = firstPlayerName;
+        this.secondPlayerName = secondPlayerName;
+    }
 
 
     @Override
@@ -35,6 +46,7 @@ public class HelloController implements Initializable {
                 field.get(i).add(null);
             }
         }
+        System.out.println(firstPlayerName + " " + secondPlayerName);
         for (Node hBox: box.getChildren()) {
             HBox currentBox = (HBox) hBox;
             for (Node button: currentBox.getChildren()) {
@@ -54,13 +66,31 @@ public class HelloController implements Initializable {
                     }
                     isCross = !isCross;
                     if (checkWin() != null){
-                        messageLabel.setText("Выиграли " + checkWin());
-                        changeButtonsDisableState(true);
-                        playAgainButton.setVisible(true);
+                        finishGame("Выиграли " + checkWin());
+                    } else if (isDraw()) {
+                        finishGame("Ничья");
                     }
                 });
             }
         }
+    }
+
+    private void finishGame(String endMessage) {
+        messageLabel.setText(endMessage);
+        changeButtonsDisableState(true);
+        playAgainButton.setVisible(true);
+    }
+
+
+    private boolean isDraw() {
+        for (int i = 0; i < fieldLength; i++) {
+            for (int j = 0; j < fieldLength; j++) {
+                if (field.get(i).get(j) == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -105,7 +135,16 @@ public class HelloController implements Initializable {
                 field.get(i).set(j, null);
             }
         }
-        System.out.println(field);
+        isCross = true;
+        messageLabel.setText("");
+        playAgainButton.setVisible(false);
+        for (Node hBox: box.getChildren()) {
+            HBox currentBox = (HBox) hBox;
+            for (Node button: currentBox.getChildren()) {
+                Button b = (Button) button;
+                b.setText("");
+            }
+        }
     }
 
 
