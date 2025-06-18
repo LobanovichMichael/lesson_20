@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lesson_20.HelloController">
    <padding>
@@ -42,7 +43,26 @@
       </VBox>
       <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="59.0" prefHeight="18.0" prefWidth="28.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
       <Button fx:id="playAgainButton" layoutX="246.0" layoutY="340.0" mnemonicParsing="false" onAction="#playAgainClick" text="Сыграть еще раз" visible="false" />
-      <Label fx:id="firstNameLabel" layoutX="92.0" layoutY="127.0" text="Label" />
-      <Label fx:id="secondNameLabel" layoutX="495.0" layoutY="127.0" text="Label" />
+      <VBox alignment="CENTER" layoutX="52.0" layoutY="62.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="firstNameLabel" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="firstCount" text="Label" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="460.0" layoutY="62.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="secondNameLabel" alignment="CENTER" contentDisplay="CENTER" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="secondCount" alignment="CENTER" contentDisplay="CENTER" text="Label" />
+         </children>
+      </VBox>
+      <Button layoutX="26.0" layoutY="353.0" mnemonicParsing="false" onAction="#goBack" text="Назад" />
    </children>
 </AnchorPane>

@@ -1,13 +1,18 @@
 package org.example.lesson_20;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,6 +28,10 @@ public class HelloController implements Initializable {
     private Label firstNameLabel;
     @FXML
     private Label secondNameLabel;
+    @FXML
+    private Label firstCount;
+    @FXML
+    private Label secondCount;
 
     private boolean isCross = true;
 
@@ -31,12 +40,6 @@ public class HelloController implements Initializable {
     private ArrayList<ArrayList<Integer>> field = new ArrayList<>(fieldLength);
     private String firstPlayerName, secondPlayerName;
 
-    public void setNames(String firstPlayerName, String secondPlayerName) {
-        this.firstPlayerName = firstPlayerName;
-        this.secondPlayerName = secondPlayerName;
-        firstNameLabel.setText(firstPlayerName);
-        secondNameLabel.setText(secondPlayerName);
-    }
 
 
     @Override
@@ -47,7 +50,10 @@ public class HelloController implements Initializable {
                 field.get(i).add(null);
             }
         }
-        System.out.println(firstPlayerName + " " + secondPlayerName);
+        firstNameLabel.setText(NamesData.firstName);
+        secondNameLabel.setText(NamesData.secondName);
+        firstCount.setText(String.valueOf(NamesData.firstScore));
+        secondCount.setText(String.valueOf(NamesData.secondScore));
         for (Node hBox: box.getChildren()) {
             HBox currentBox = (HBox) hBox;
             for (Node button: currentBox.getChildren()) {
@@ -67,13 +73,36 @@ public class HelloController implements Initializable {
                     }
                     isCross = !isCross;
                     if (checkWin() != null){
-                        finishGame("Выиграли " + checkWin());
+                        boolean isXWon = checkWin() == "X";
+                        String name = isXWon ? firstPlayerName : secondPlayerName;
+                        if (isXWon) {
+                            firstCount.setText(String.valueOf(Integer.parseInt(firstCount.getText()) + 1));
+                        } else {
+                            secondCount.setText(String.valueOf(Integer.parseInt(secondCount.getText()) + 1));
+                        }
+                        finishGame("Выиграл(а) " + name);
                     } else if (isDraw()) {
                         finishGame("Ничья");
                     }
                 });
             }
         }
+    }
+
+    @FXML
+    private void goBack() throws IOException {
+        System.out.println("here");
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("start-game.fxml"));
+//        HelloController controller = new HelloController(firstPlayerName.getText(), secondPlayerName.getText());
+//        fxmlLoader.setController(controller);
+//        HelloController controller = fxmlLoader.getController();
+//        controller.setNames(firstPlayerName.getText(), secondPlayerName.getText());
+        NamesData.firstScore = Integer.valueOf(this.firstCount.getText());
+        NamesData.secondScore = Integer.valueOf(this.secondCount.getText());
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Stage stage = (Stage) secondCount.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void finishGame(String endMessage) {
@@ -97,7 +126,6 @@ public class HelloController implements Initializable {
 
     private String checkWin() {
         final int size = fieldLength;
-
         for (int i = 0; i < size; i++) {
             if (field.get(i).get(0) != null &&
                     field.get(i).get(0) == field.get(i).get(1) &&
